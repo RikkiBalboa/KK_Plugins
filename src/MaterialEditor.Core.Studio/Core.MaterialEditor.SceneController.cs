@@ -30,7 +30,7 @@ namespace KK_Plugins.MaterialEditor
         private readonly List<MaterialShader> MaterialShaderList = new List<MaterialShader>();
         private readonly List<MaterialCopy> MaterialCopyList = new List<MaterialCopy>();
 
-        private static Dictionary<int, TextureContainer> TextureDictionary = new Dictionary<int, TextureContainer>();
+        internal static Dictionary<int, TextureContainer> TextureDictionary = new Dictionary<int, TextureContainer>();
 
         private static string FileToSet;
         private static string PropertyToSet;
@@ -46,7 +46,7 @@ namespace KK_Plugins.MaterialEditor
 
             List<int> IDsToPurge = new List<int>();
             foreach (int texID in TextureDictionary.Keys)
-                if (MaterialTexturePropertyList.All(x => x.TexID != texID))
+                if (MaterialTexturePropertyList.All(x => x.TexID != texID && TimelineCompatibilityHelper.TextureIds.Contains(texID)))
                     IDsToPurge.Add(texID);
 
             for (var i = 0; i < IDsToPurge.Count; i++)
@@ -102,6 +102,7 @@ namespace KK_Plugins.MaterialEditor
         /// <param name="loadedItems"></param>
         protected override void OnSceneLoad(SceneOperationKind operation, ReadOnlyDictionary<int, ObjectCtrlInfo> loadedItems)
         {
+            MaterialEditorPluginBase.Logger.LogInfo("ME loading");
             var data = GetExtendedData();
 
             if (operation == SceneOperationKind.Clear || operation == SceneOperationKind.Load)
@@ -587,7 +588,7 @@ namespace KK_Plugins.MaterialEditor
         /// <summary>
         /// Finds the texture bytes in the dictionary of textures and returns its ID. If not found, adds the texture to the dictionary and returns the ID of the added texture.
         /// </summary>
-        private static int SetAndGetTextureID(byte[] textureBytes)
+        internal static int SetAndGetTextureID(byte[] textureBytes)
         {
             int highestID = 0;
             foreach (var tex in TextureDictionary)

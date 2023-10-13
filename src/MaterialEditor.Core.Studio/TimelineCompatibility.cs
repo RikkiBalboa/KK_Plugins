@@ -2,6 +2,7 @@
 using KKAPI.Utilities;
 using Studio;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using UnityEngine;
@@ -11,8 +12,10 @@ using static MaterialEditorAPI.MaterialEditorUI;
 
 namespace MaterialEditorAPI
 {
-    internal static class TimelineCompatibilityHelper
+    public static class TimelineCompatibilityHelper
     {
+        public static readonly HashSet<int> TextureIds = new HashSet<int>();
+
         internal static void PopulateTimeline()
         {
             if (!TimelineCompatibility.IsTimelineAvailable()) return;
@@ -118,11 +121,18 @@ namespace MaterialEditorAPI
                    getValue: (oci, parameter) => parameter.GetMaterial(oci).GetTexture($"_{parameter.propertyName}"),
                    readValueFromXml: (parameter, node) =>
                    {
-                       var texture = new Texture2D(1, 1);
-                       texture.LoadImage(Convert.FromBase64String(node.Attributes["X"].Value));
-                       return texture;
+                       System.Threading.Thread.Sleep(5000);
+                       return KK_Plugins.MaterialEditor.SceneController.TextureDictionary[XmlConvert.ToInt32(node.Attributes["value"].Value)].Texture;
                    },
-                   writeValueToXml: (parameter, writer, value) => writer.WriteAttributeString("value", Convert.ToBase64String(value.ToTexture2D().EncodeToPNG())),
+                   writeValueToXml: (parameter, writer, value) =>
+                   {
+                       var texID = KK_Plugins.MaterialEditor.SceneController.SetAndGetTextureID(value.ToTexture2D().GetRawTextureData());
+                       TextureIds.Add(texID);
+
+                       //textureProperty = new MaterialTextureProperty(id, material.NameFormatted(), propertyName, texID);
+                       //MaterialTexturePropertyList.Add(textureProperty);
+                       writer.WriteAttributeString("value", XmlConvert.ToString(texID));
+                   },
                    getParameter: GetMaterialInfoParameter,
                    readParameterFromXml: ReadMaterialInfoXml,
                    writeParameterToXml: WriteMaterialInfoXml,
@@ -192,7 +202,7 @@ namespace MaterialEditorAPI
                    owner: "MaterialEditor",
                    id: "colorProperty",
                    name: "Color Property",
-                   interpolateBefore: (oci, parameter, leftValue, rightValue, factor) => SetColor(parameter.GetGameObject(oci), parameter.materialName, parameter.propertyName, Color.LerpUnclamped(leftValue, rightValue, factor)),
+                   interpolateBefore: (oci, parameter, leftValue, rightValue, factor) => SetColor(parameter.GetGameObject(oci), parameter.materialName, parameter.propertyName, Vector4.LerpUnclamped(leftValue, rightValue, factor)),
                    interpolateAfter: null,
                    getValue: (oci, parameter) => parameter.GetMaterial(oci).GetColor($"_{parameter.propertyName}"),
                    readValueFromXml: (parameter, node) =>

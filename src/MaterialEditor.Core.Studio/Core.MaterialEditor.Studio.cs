@@ -60,11 +60,15 @@ namespace KK_Plugins.MaterialEditor
 
         internal static Dropdown ItemTypeDropDown;
 
-        private void Start()
+        private void Awake()
         {
             Instance = this;
             SceneManager.sceneLoaded += (s, lsm) => InitStudioUI(s.name);
             StudioSaveLoadApi.RegisterExtraBehaviour<SceneController>(MaterialEditorPlugin.PluginGUID);
+        }
+
+        private void Start()
+        {
 #if !PH
             TimelineCompatibilityHelper.PopulateTimeline();
 #endif
