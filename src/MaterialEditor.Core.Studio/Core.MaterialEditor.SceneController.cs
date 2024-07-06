@@ -149,6 +149,11 @@ namespace KK_Plugins.MaterialEditor
         /// <returns>GameObject with OCI</returns>
         protected static GameObject ExtractGameObject(ReadOnlyDictionary<int, ObjectCtrlInfo> items, int id, out int objectId)
         {
+            if (id == -1)
+            {
+                objectId = -1;
+                return GameObject.Find("/Map");
+            }
             if (!items.TryGetValue(id, out ObjectCtrlInfo objectCtrlInfo) || objectCtrlInfo == null || !(objectCtrlInfo is OCIItem ociItem))
             {
                 objectId = -1;
@@ -1683,12 +1688,17 @@ namespace KK_Plugins.MaterialEditor
 
         private static GameObject GetObjectByID(int id)
         {
-            if (!Studio.Studio.Instance.dicObjectCtrl.TryGetValue(id, out var objectCtrlInfo)) return null;
-            if (objectCtrlInfo is OCIItem ociItem)
-                return ociItem.objectItem;
-            else if (objectCtrlInfo is OCIChar ociChar)
-                return ociChar.charInfo.gameObject;
-            return null;
+            if (id == -1)
+                return GameObject.Find("/Map");
+            else
+            {
+                if (!Studio.Studio.Instance.dicObjectCtrl.TryGetValue(id, out var objectCtrlInfo)) return null;
+                if (objectCtrlInfo is OCIItem ociItem)
+                    return ociItem.objectItem;
+                else if (objectCtrlInfo is OCIChar ociChar)
+                    return ociChar.charInfo.gameObject;
+                return null;
+            }
         }
 
         /// <summary>

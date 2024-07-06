@@ -134,6 +134,12 @@ namespace KK_Plugins.MaterialEditor
                         _RendererLookup[gameObject] = rendList;
                         return false;
                     }
+                    else
+                    {
+                        __result = gameObject.GetComponentsInChildren<Renderer>(true);
+                        _RendererLookup[gameObject] = rendList;
+                        return false;
+                    }
                 }
 #endif
             }

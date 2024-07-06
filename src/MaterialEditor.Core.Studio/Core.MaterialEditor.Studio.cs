@@ -127,24 +127,35 @@ namespace KK_Plugins.MaterialEditor
         /// </summary>
         public void UpdateUI()
         {
-            if (Singleton<Studio.Studio>.Instance.treeNodeCtrl.selectNodes.Length != 1)
+            if (Singleton<Studio.Studio>.Instance.treeNodeCtrl.selectNodes.Length > 1)
                 return;
-
-            TreeNodeObject[] selectNodes = Singleton<Studio.Studio>.Instance.treeNodeCtrl.selectNodes;
-            for (int i = 0; i < selectNodes.Length; i++)
-                if (Studio.Studio.Instance.dicInfo.TryGetValue(selectNodes[i], out ObjectCtrlInfo objectCtrlInfo))
-                    if (objectCtrlInfo is OCIItem ociItem)
-                    {
-                        PopulateList(ociItem.objectItem, GetObjectID(objectCtrlInfo));
-                        ItemTypeDropDown.gameObject.SetActive(false);
-                    }
-                    else if (objectCtrlInfo is OCIChar ociChar)
-                    {
-                        PopulateList(ociChar.charInfo.gameObject, new ObjectData(0, MaterialEditorCharaController.ObjectType.Character));
-                        var chaControl = ociChar.GetChaControl();
-                        PopulateItemTypeDropdown(chaControl);
-                        ItemTypeDropDown.gameObject.SetActive(true);
-                    }
+            else if (Singleton<Studio.Studio>.Instance.treeNodeCtrl.selectNodes.Length == 0)
+            {
+                var map = GameObject.Find("/Map");
+                if (map != null)
+                {
+                    PopulateList(map, -1);
+                    ItemTypeDropDown.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                TreeNodeObject[] selectNodes = Singleton<Studio.Studio>.Instance.treeNodeCtrl.selectNodes;
+                for (int i = 0; i < selectNodes.Length; i++)
+                    if (Studio.Studio.Instance.dicInfo.TryGetValue(selectNodes[i], out ObjectCtrlInfo objectCtrlInfo))
+                        if (objectCtrlInfo is OCIItem ociItem)
+                        {
+                            PopulateList(ociItem.objectItem, GetObjectID(objectCtrlInfo));
+                            ItemTypeDropDown.gameObject.SetActive(false);
+                        }
+                        else if (objectCtrlInfo is OCIChar ociChar)
+                        {
+                            PopulateList(ociChar.charInfo.gameObject, new ObjectData(0, MaterialEditorCharaController.ObjectType.Character));
+                            var chaControl = ociChar.GetChaControl();
+                            PopulateItemTypeDropdown(chaControl);
+                            ItemTypeDropDown.gameObject.SetActive(true);
+                        }
+            }
         }
 
         /// <summary>
