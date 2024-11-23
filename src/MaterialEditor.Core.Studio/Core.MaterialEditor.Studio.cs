@@ -134,7 +134,7 @@ namespace KK_Plugins.MaterialEditor
                 var map = GameObject.Find("/Map");
                 if (map != null)
                 {
-                    PopulateList(map, -1);
+                    PopulateList(map, -2);
                     ItemTypeDropDown.gameObject.SetActive(false);
                 }
             }
