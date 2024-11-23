@@ -717,7 +717,49 @@ Boop the character by moving mouse over parts of their body, hair and clothes. U
 - [KK_ShaderSwapper]
 - [KKS_ShaderSwapper]
 
-Swap all shaders to the equivalent Vanilla Plus shader in the character maker or studio by pressing right ctrl + P
+Swap all shaders to the equivalent Vanilla Plus shader in the character maker or studio by pressing right ctrl + P.
+
+Custom rules for swapping shaders can be provided in xml files. Check the "Mapping" category in plugin's settings. 
+
+<details>
+<summary>Explanation of the xml file format</summary>
+
+```xml
+<ShaderSwapper>
+  <!-- Old structure for "Mapping" element, still supported -->
+  <Mapping From="Shader Forge/main_skin" To="xukmi/SkinPlus">
+
+  <!-- New structure for "Mapping" element, keep the old "From" attribute... -->
+  <Mapping From="Shader Forge/main_skin">
+    <!-- ...but introduce a "Rule" element to replace the "To" attribute -->
+    <Rule Name="xukmi/SkinPlus" />
+  </Mapping>
+
+  <!-- Advanced usage, with includes and excludes -->
+  <Mapping From="original_shader">
+    <!-- Change to shader_0 if the material name is material_0 or material_1... -->
+    <Rule Name="shader_0">
+      <Include>
+        <Entry>material_0</Entry>
+        <Entry>material_1</Entry>
+      </Include>
+    </Rule>
+
+    <!-- ...else, change to shader_1 if the material name is NOT material_2 or material_3... -->
+    <Rule Name="shader_1">
+      <Exclude>
+        <Entry>material_2</Entry>
+        <Entry>material_3</Entry>
+      </Exclude>
+    </Rule>
+
+    <!-- ...else, change to shader_2 -->
+    <Rule Name="shader_2" />
+  </Mapping>
+</ShaderSwapper>
+```
+
+</details>
 
 #### FreeHStudioSceneLoader
 
@@ -749,10 +791,10 @@ Allows you to use studio scenes as H mode maps in main game. **Experimental! Exp
 [HS2_CharacterExport]: https://github.com/IllusionMods/KK_Plugins/releases/download/v156/HS2_CharacterExport.v1.0.zip "v1.0"
 [EC_CharacterExport]: https://github.com/IllusionMods/KK_Plugins/releases/download/v131/EC_CharacterExport.v1.0.zip "v1.0"
 [AI_CharacterExport]: https://github.com/IllusionMods/KK_Plugins/releases/download/v131/AI_CharacterExport.v1.0.zip "v1.0"
-[KKS_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v237/KKS_Colliders.v1.3.zip "v1.3"
-[KK_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v237/KK_Colliders.v1.3.zip "v1.3"
-[HS2_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v237/HS2_Colliders.v1.3.zip "v1.3"
-[AI_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v237/AI_Colliders.v1.3.zip "v1.3"
+[KKS_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/KKS_Colliders.v1.3.1.zip "v1.3.1"
+[KK_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/KK_Colliders.v1.3.1.zip "v1.3.1"
+[HS2_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/HS2_Colliders.v1.3.1.zip "v1.3.1"
+[AI_Colliders]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/AI_Colliders.v1.3.1.zip "v1.3.1"
 [KKS_Demosaic]: https://github.com/IllusionMods/KK_Plugins/releases/download/v201/KKS_Demosaic.v1.1.zip "v1.1"
 [HS2_Demosaic]: https://github.com/IllusionMods/KK_Plugins/releases/download/v156/HS2_Demosaic.v1.1.zip "v1.1"
 [EC_Demosaic]: https://github.com/IllusionMods/KK_Plugins/releases/download/v73/EC_Demosaic.v1.1.zip "v1.1"
@@ -786,12 +828,12 @@ Allows you to use studio scenes as H mode maps in main game. **Experimental! Exp
 [KKS_MaleJuice]: https://github.com/IllusionMods/KK_Plugins/releases/download/v230/KKS_MaleJuice.v1.3.zip "v1.3"
 [HS2_MaleJuice]: https://github.com/IllusionMods/KK_Plugins/releases/download/v200/HS2_MaleJuice.v1.3.zip "v1.3"
 [AI_MaleJuice]: https://github.com/IllusionMods/KK_Plugins/releases/download/v200/AI_MaleJuice.v1.3.zip "v1.3"
-[PH_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/PH_MaterialEditor.v3.7.0.zip "v3.7.0"
-[KKS_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/KKS_MaterialEditor.v3.7.0.zip "v3.7.0"
-[KK_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/KK_MaterialEditor.v3.7.0.zip "v3.7.0"
-[HS2_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/HS2_MaterialEditor.v3.7.0.zip "v3.7.0"
-[EC_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/EC_MaterialEditor.v3.7.0.zip "v3.7.0"
-[AI_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/AI_MaterialEditor.v3.7.0.zip "v3.7.0"
+[PH_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/PH_MaterialEditor.v3.9.2.zip "v3.9.2"
+[KKS_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/KKS_MaterialEditor.v3.9.2.zip "v3.9.2"
+[KK_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/KK_MaterialEditor.v3.9.2.zip "v3.9.2"
+[HS2_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/HS2_MaterialEditor.v3.9.2.zip "v3.9.2"
+[EC_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/EC_MaterialEditor.v3.9.2.zip "v3.9.2"
+[AI_MaterialEditor]: https://github.com/IllusionMods/KK_Plugins/releases/download/v257/AI_MaterialEditor.v3.9.2.zip "v3.9.2"
 [KKS_PoseTools]: https://github.com/IllusionMods/KK_Plugins/releases/download/v248/KKS_PoseTools.v1.1.2.zip "v1.1.2"
 [KK_PoseTools]: https://github.com/IllusionMods/KK_Plugins/releases/download/v248/KK_PoseTools.v1.1.2.zip "v1.1.2"
 [HS2_PoseTools]: https://github.com/IllusionMods/KK_Plugins/releases/download/v248/HS2_PoseTools.v1.1.2.zip "v1.1.2"
@@ -809,10 +851,10 @@ Allows you to use studio scenes as H mode maps in main game. **Experimental! Exp
 [KK_StudioCustomMasking]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/KK_StudioCustomMasking.v1.1.1.zip "v1.1.1"
 [HS2_StudioCustomMasking]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/HS2_StudioCustomMasking.v1.1.1.zip "v1.1.1"
 [AI_StudioCustomMasking]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/AI_StudioCustomMasking.v1.1.1.zip "v1.1.1"
-[KKS_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/KKS_StudioImageEmbed.v1.0.2.zip "v1.0.2"
-[KK_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/KK_StudioImageEmbed.v1.0.2.zip "v1.0.2"
-[HS2_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/HS2_StudioImageEmbed.v1.0.2.zip "v1.0.2"
-[AI_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v207/AI_StudioImageEmbed.v1.0.2.zip "v1.0.2"
+[KKS_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/KKS_StudioImageEmbed.v1.0.3.zip "v1.0.3"
+[KK_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/KK_StudioImageEmbed.v1.0.3.zip "v1.0.3"
+[HS2_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/HS2_StudioImageEmbed.v1.0.3.zip "v1.0.3"
+[AI_StudioImageEmbed]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/AI_StudioImageEmbed.v1.0.3.zip "v1.0.3"
 [KKS_StudioObjectMoveHotkeys]: https://github.com/IllusionMods/KK_Plugins/releases/download/v206/KKS_StudioObjectMoveHotkeys.v1.0.zip "v1.0"
 [KK_StudioObjectMoveHotkeys]: https://github.com/IllusionMods/KK_Plugins/releases/download/v122/KK_StudioObjectMoveHotkeys.v1.0.zip "v1.0"
 [HS2_StudioObjectMoveHotkeys]: https://github.com/IllusionMods/KK_Plugins/releases/download/v156/HS2_StudioObjectMoveHotkeys.v1.0.zip "v1.0"
@@ -841,11 +883,11 @@ Allows you to use studio scenes as H mode maps in main game. **Experimental! Exp
 [HS2_Subtitles]: https://github.com/IllusionMods/KK_Plugins/releases/download/v226.1/HS2_Subtitles.v2.3.2.zip "v2.3.2"
 [HS_Subtitles]: https://github.com/IllusionMods/KK_Plugins/releases/download/v226.1/HS_Subtitles.v2.3.2.zip "v2.3.2"
 [AI_Subtitles]: https://github.com/IllusionMods/KK_Plugins/releases/download/v226.1/AI_Subtitles.v2.3.2.zip "v2.3.2"
-[KKS_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/KKS_UncensorSelector.v3.12.0.zip "v3.12.0"
-[KK_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/KK_UncensorSelector.v3.12.0.zip "v3.12.0"
-[HS2_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/HS2_UncensorSelector.v3.12.0.zip "v3.12.0"
-[EC_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/EC_UncensorSelector.v3.12.0.zip "v3.12.0"
-[AI_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v253/AI_UncensorSelector.v3.12.0.zip "v3.12.0"
+[KKS_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/KKS_UncensorSelector.v3.12.1.zip "v3.12.1"
+[KK_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/KK_UncensorSelector.v3.12.1.zip "v3.12.1"
+[HS2_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/HS2_UncensorSelector.v3.12.1.zip "v3.12.1"
+[EC_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/EC_UncensorSelector.v3.12.1.zip "v3.12.1"
+[AI_UncensorSelector]: https://github.com/IllusionMods/KK_Plugins/releases/download/v254/AI_UncensorSelector.v3.12.1.zip "v3.12.1"
 [KKS_AccessoryClothes]: https://github.com/IllusionMods/KK_Plugins/releases/download/v226.1/KKS_AccessoryClothes.v1.0.2.zip "v1.0.2"
 [KK_AccessoryClothes]: https://github.com/IllusionMods/KK_Plugins/releases/download/v226.1/KK_AccessoryClothes.v1.0.2.zip "v1.0.2"
 [EC_AccessoryClothes]: https://github.com/IllusionMods/KK_Plugins/releases/download/v226.1/EC_AccessoryClothes.v1.0.2.zip "v1.0.2"

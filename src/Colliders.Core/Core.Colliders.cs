@@ -23,7 +23,7 @@ namespace KK_Plugins
         public const string GUID = "com.deathweasel.bepinex.colliders";
         public const string PluginName = "Colliders";
         public const string PluginNameInternal = Constants.Prefix + "_Colliders";
-        public const string Version = "1.3";
+        public const string Version = "1.3.1";
         internal static new ManualLogSource Logger;
 
         public static ConfigEntry<bool> ConfigBreastColliders { get; private set; }
@@ -180,9 +180,8 @@ namespace KK_Plugins
             protected override void OnSceneSave() { }
             protected override void OnSceneLoad(SceneOperationKind operation, ReadOnlyDictionary<int, ObjectCtrlInfo> loadedItems)
             {
-                var controllers = FindObjectsOfType<ColliderController>();
-                for (var i = 0; i < controllers.Length; i++)
-                    controllers[i].ApplyColliders();
+                foreach( var controller in ColliderController.GetAllColliderControllers())
+                    controller.ApplyColliders();
             }
         }
     }
